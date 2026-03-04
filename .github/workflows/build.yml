@@ -1,0 +1,29 @@
+name: Build Workflow
+
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      # Checkout source
+      - name: 'Checkout source'
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 #v5.0.0
+
+      # Say Hi
+      - name: 'Say Hi'
+        run: echo "Hello, ${{ github.actor }}! Thanks for your contribution"
