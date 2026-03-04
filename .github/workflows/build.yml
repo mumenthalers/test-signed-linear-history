@@ -26,4 +26,4 @@ jobs:
 
       # Say Hi
       - name: 'Say Hi'
-        run: echo "Hello, ${{ github.actor }}! Thanks for your contribution"
+        run: echo "Hello, ${{ github.actor }}!!! Thanks for your contribution"
