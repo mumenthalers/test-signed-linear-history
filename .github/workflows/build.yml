@@ -42,7 +42,7 @@ jobs:
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             STAGE="${{ github.event.inputs.stage || 'abn' }}"
           else
-            STAGE=$(./scripts/stagename "${{ github.ref_name }}")
+            STAGE=$(./scripts/stagename "${{ github.head_ref || github.ref_name }}")
           fi
           echo "stage=$STAGE" >> $GITHUB_OUTPUT
 
