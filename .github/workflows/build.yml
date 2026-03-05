@@ -1,6 +1,16 @@
 name: Build Workflow
 
 on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Stage (prod or abn)'
+        required: true
+        default: 'abn'
+        type: choice
+        options:
+          - prod
+          - abn
   push:
     branches:
       - main
@@ -20,10 +30,23 @@ jobs:
     permissions:
       contents: read
     steps:
-      # Checkout source
-      - name: 'Checkout source'
+      # Checkout Source
+      - name: 'Checkout Source'
+        id: checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 #v5.0.0
+
+      # Prepare Variables
+      - name: 'Prepare Variables'
+        id: prep
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            STAGE="${{ github.event.inputs.stage }:-abn}"
+          else
+            STAGE=$(./scripts/stagename "${{ github.ref_name }}")
+          fi
+          echo "stage=$STAGE" >> $GITHUB_OUTPUT
 
       # Say Hi
       - name: 'Say Hi'
-        run: echo "Hello, ${{ github.actor }}!!! Thanks for your contribution"
+        run: |
+          echo "Hello, ${{ github.actor }}! Thanks for your contribution. Stage: ${{ steps.prep.outputs.stage }}"

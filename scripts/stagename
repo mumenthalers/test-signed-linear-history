@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# generate stage slug of branch name
+# Format: /#(\d+)-.+/ becomes xxNUM where NUM is the captured number
+
+BRANCH_NAME=$1
+
+# Extract the number from the branch name using regex
+# Match pattern: /#(\d+)-.+/ and capture the number
+if [[ $BRANCH_NAME =~ ^#([0-9]+)-.+ ]]; then
+  NUM="${BASH_REMATCH[1]}"
+  echo "xx${NUM}"
+else
+  # If pattern doesn't match, exit with error
+  echo "Error: Branch name '$BRANCH_NAME' does not match expected format /#(\d+)-.+/" >&2
+  exit 1
+fi
+
+
