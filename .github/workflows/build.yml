@@ -40,7 +40,7 @@ jobs:
         id: prep
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            STAGE="${{ github.event.inputs.stage }:-abn}"
+            STAGE="${{ github.event.inputs.stage || 'abn' }}"
           else
             STAGE=$(./scripts/stagename "${{ github.ref_name }}")
           fi
